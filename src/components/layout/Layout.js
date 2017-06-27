@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import Header from './Header';
 import Footer from './Footer';
+import Loader from 'react-loader';
+import PropTypes from 'prop-types';
 import '../../css/base.css';
 
 class Layout extends Component {
@@ -13,7 +15,9 @@ class Layout extends Component {
 					<Row>
 						<Col sm={6} smOffset={3} className='text-center'>
 							<div className='content'>
-								{this.props.children}
+								<Loader loaded={this.props.loaded} bottom='50%' left='50%' className='spinner' position='fixed'>
+									{this.props.children}
+								</Loader>
 							</div>
 						</Col>
 					</Row>
@@ -22,6 +26,14 @@ class Layout extends Component {
 			</div>
 		);
 	}
+}
+
+Layout.defaultProps = {
+	loaded: true
+}
+
+Layout.propTypes = {
+	loaded: PropTypes.bool
 }
 
 export default Layout;
