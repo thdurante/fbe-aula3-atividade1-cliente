@@ -13,7 +13,7 @@ class Layout extends Component {
 				<Header/>
 				<Grid>
 					<Row>
-						<Col sm={6} smOffset={3} className='text-center'>
+						<Col sm={10} smOffset={1} className='text-center'>
 							<div className='content'>
 								<Loader loaded={this.props.loaded} bottom='50%' left='50%' className='spinner' position='fixed'>
 									{this.props.children}
