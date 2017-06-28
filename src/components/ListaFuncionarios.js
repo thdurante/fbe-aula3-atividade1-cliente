@@ -5,8 +5,8 @@ import Funcionario from "./Funcionario";
 
 class ListaFuncionarios extends Component {
 
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 
 		this.state = {
 			loaded: false,
