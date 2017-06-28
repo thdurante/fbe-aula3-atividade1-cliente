@@ -8,7 +8,7 @@ class Home extends Component {
 			<Layout>
 				<p>Selecione uma das opções abaixo:</p>
 				<Button bsStyle='primary' href='/funcionarios' block>Lista de Funcionários</Button>
-				<Button bsStyle='primary' href='#' block>Adiciona Funcionário</Button>
+				<Button bsStyle='primary' href='/funcionarios/add' block>Adiciona Funcionário</Button>
 				<Button bsStyle='primary' href='#' block>Busca Funcionário por ID</Button>
 				<Button bsStyle='primary' href='#' block>Busca Funcionário por CPF</Button>
 			</Layout>
