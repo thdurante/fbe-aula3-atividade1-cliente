@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Table, Button } from 'react-bootstrap';
-import Layout from './layout/Layout';
-import Funcionario from "./Funcionario";
+import Layout from '../layout/Layout';
+import Funcionario from "../Funcionario";
 
-class ListaFuncionarios extends Component {
+class ListaFuncionariosView extends Component {
 
 	constructor(props) {
 		super(props);
@@ -48,4 +48,4 @@ class ListaFuncionarios extends Component {
 	}
 }
 
-export default ListaFuncionarios;
+export default ListaFuncionariosView;

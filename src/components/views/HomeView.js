@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import Layout from './layout/Layout';
+import Layout from '../layout/Layout';
 
-class Home extends Component {
+class HomeView extends Component {
 	render() {
 		return (
 			<Layout>
@@ -16,4 +16,4 @@ class Home extends Component {
 	}
 }
 
-export default Home;
+export default HomeView;
