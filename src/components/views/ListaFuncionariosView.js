@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Button } from 'react-bootstrap';
+import { Table, Button, Alert } from 'react-bootstrap';
 import Layout from '../layout/Layout';
 import Funcionario from "../Funcionario";
 
@@ -10,20 +10,32 @@ class ListaFuncionariosView extends Component {
 
 		this.state = {
 			loaded: false,
-			funcionarios: []
+			funcionarios: [],
+			flashMessage: ''
 		}
 	}
 
 	async componentDidMount() {
+		const flashMessage = this.props.history.location.hasOwnProperty('state') && this.props.history.location.state !== undefined ?
+			this.props.history.location.state.flashMessage : '';
+
 		const endpoint = 'http://localhost:8080/fbe-aula3-atividade1-1.0-SNAPSHOT/resources/funcionarios';
 		const response = await fetch(endpoint, { method: 'GET' })
 		const funcionarios = await response.json()
-		await this.setState({ funcionarios, loaded: true })
+		await this.setState({ funcionarios, loaded: true, flashMessage })
 	}
 
 	render() {
+		const flash = this.state.flashMessage !== '' ?
+			(
+				<Alert bsStyle='info'>
+					<strong>Mensagem:</strong> {this.state.flashMessage}
+				</Alert>
+			) : <div/>;
+
 		return (
 			<Layout loaded={this.state.loaded}>
+				{ flash }
 				<Table responsive hover>
 					<thead>
 						<tr>

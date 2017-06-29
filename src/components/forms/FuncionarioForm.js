@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { Row, Col, FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 class FuncionarioForm extends Component {
 
@@ -17,7 +19,7 @@ class FuncionarioForm extends Component {
 			funcionario[field] = findDOMNode(this.refs[field]).value
 		}
 
-		// TODO: chamar a api passando o funcionário criado
+		this.props.handleFormSubmit(funcionario);
 	}
 
 	render() {
@@ -76,7 +78,20 @@ class FuncionarioForm extends Component {
 	}
 }
 
+FuncionarioForm.propTypes = {
+	handleFormSubmit: PropTypes.func.isRequired,
+	funcionario: PropTypes.shape({
+		id: PropTypes.number.isRequired,
+		nome: PropTypes.string.isRequired,
+		cpf: PropTypes.string.isRequired,
+		email: PropTypes.string.isRequired,
+		nascimento: PropTypes.string.isRequired,
+		telefone: PropTypes.string.isRequired
+	}).isRequired
+}
+
 FuncionarioForm.defaultProps = {
+	handleFormSubmit: () => {},
 	funcionario: {
 		id: 0,
 		nome: '',
@@ -87,4 +102,4 @@ FuncionarioForm.defaultProps = {
 	}
 }
 
-export default FuncionarioForm;
+export default withRouter(FuncionarioForm);
