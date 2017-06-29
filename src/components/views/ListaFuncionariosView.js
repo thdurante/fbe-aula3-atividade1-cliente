@@ -13,16 +13,41 @@ class ListaFuncionariosView extends Component {
 			funcionarios: [],
 			flashMessage: ''
 		}
+
+		this.handleRemove = this.handleRemove.bind(this);
+		this.handleEdit = this.handleEdit.bind(this);
+		this.fetchFuncionarios = this.fetchFuncionarios.bind(this);
 	}
 
 	async componentDidMount() {
 		const flashMessage = this.props.history.location.hasOwnProperty('state') && this.props.history.location.state !== undefined ?
 			this.props.history.location.state.flashMessage : '';
 
+		const funcionarios = await this.fetchFuncionarios();
+		this.setState({ funcionarios, loaded: true, flashMessage })
+	}
+
+	async fetchFuncionarios() {
 		const endpoint = 'http://localhost:8080/fbe-aula3-atividade1-1.0-SNAPSHOT/resources/funcionarios';
 		const response = await fetch(endpoint, { method: 'GET' })
 		const funcionarios = await response.json()
-		await this.setState({ funcionarios, loaded: true, flashMessage })
+		return funcionarios
+	}
+
+	async handleRemove(id) {
+		this.setState({ loaded: false });
+
+		const endpoint = 'http://localhost:8080/fbe-aula3-atividade1-1.0-SNAPSHOT/resources/funcionarios/' + id;
+		const response = await fetch(endpoint, { method: 'DELETE' });
+		const responseJSON = await response.json();
+		const flashMessage = responseJSON.hasOwnProperty('sucesso') ? responseJSON.sucesso.mensagem : 'Funcionário não pode ser removido da base de dados!';
+
+		const funcionarios = await this.fetchFuncionarios();
+		this.setState({ funcionarios, loaded: true, flashMessage })
+	}
+
+	handleEdit(id) {
+
 	}
 
 	render() {
@@ -50,7 +75,7 @@ class ListaFuncionariosView extends Component {
 					</thead>
 					<tbody>
 						{
-							this.state.funcionarios.map(obj => <Funcionario key={obj.id} details={obj}/>)
+							this.state.funcionarios.map(obj => <Funcionario key={obj.id} details={obj} removeHandler={this.handleRemove} editHandler={this.handleRemove}/>)
 						}
 					</tbody>
 				</Table>

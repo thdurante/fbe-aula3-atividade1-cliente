@@ -3,6 +3,23 @@ import { ButtonToolbar, ButtonGroup, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 class Funcionario extends Component {
+
+	constructor(props) {
+		super(props);
+		this.handleEdit = this.handleEdit.bind(this);
+		this.handleRemove = this.handleRemove.bind(this);
+	}
+
+	handleEdit(e) {
+		e.preventDefault();
+		this.props.editHandler(this.props.details.id);
+	}
+
+	handleRemove(e) {
+		e.preventDefault();
+		this.props.removeHandler(this.props.details.id);
+	}
+
 	render() {
 		return (
 			<tr>
@@ -14,8 +31,8 @@ class Funcionario extends Component {
 				<td className='text-center'>{this.props.details.telefone}</td>
 				<td className='text-center'>
 					<ButtonToolbar>
-						<ButtonGroup><Button href='#' bsStyle='warning' bsSize='xsmall'>Editar</Button></ButtonGroup>
-						<ButtonGroup><Button href='#' bsStyle='danger' bsSize='xsmall'>Remover</Button></ButtonGroup>
+						<ButtonGroup><Button onClick={this.handleEdit} bsStyle='warning' bsSize='xsmall'>Editar</Button></ButtonGroup>
+						<ButtonGroup><Button onClick={this.handleRemove} bsStyle='danger' bsSize='xsmall'>Remover</Button></ButtonGroup>
 					</ButtonToolbar>
 				</td>
 			</tr>
@@ -24,6 +41,8 @@ class Funcionario extends Component {
 }
 
 Funcionario.propTypes = {
+	removeHandler: PropTypes.func.isRequired,
+	editHandler: PropTypes.func.isRequired,
 	details: PropTypes.shape({
 		id: PropTypes.number.isRequired,
 		nome: PropTypes.string.isRequired,
@@ -35,6 +54,8 @@ Funcionario.propTypes = {
 }
 
 Funcionario.defaultProps = {
+	removeHandler: () => {},
+	editHandler: () => {},
 	details: {
 		id: 0,
 		nome: '',
