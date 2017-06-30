@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { findDOMNode } from 'react-dom';
 import { Row, Col, FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -9,17 +8,19 @@ class FuncionarioForm extends Component {
 	constructor(props) {
 		super(props);
 		this.handleSubmit  = this.handleSubmit.bind(this)
+		this.handleInputChange  = this.handleInputChange.bind(this)
 	}
 
 	handleSubmit(e) {
 		e.preventDefault();
+		this.props.handleFormSubmit();
+	}
 
-		const funcionario = {}
-		for(const field in this.refs) {
-			funcionario[field] = findDOMNode(this.refs[field]).value
-		}
-
-		this.props.handleFormSubmit(funcionario);
+	handleInputChange(e) {
+		e.preventDefault();
+		const propriedade = e.target.id;
+		const valorAtualizado = e.target.value;
+		this.props.handleInputChange(propriedade, valorAtualizado);
 	}
 
 	render() {
@@ -30,13 +31,13 @@ class FuncionarioForm extends Component {
 						<Col sm={6}>
 							<FormGroup bsSize='small'>
 								<ControlLabel>Nome</ControlLabel>
-								<FormControl type='text' ref='nome' placeholder='Nome do funcionário' />
+								<FormControl type='text' id='nome' ref='nome' placeholder='Nome do funcionário' value={this.props.funcionario.nome} onChange={this.handleInputChange} />
 							</FormGroup>
 						</Col>
 						<Col sm={6}>
 							<FormGroup bsSize='small'>
 								<ControlLabel>CPF</ControlLabel>
-								<FormControl type='text' ref='cpf' placeholder='xxx.xxx.xxx-xx' />
+								<FormControl type='text' id='cpf' ref='cpf' placeholder='xxx.xxx.xxx-xx' value={this.props.funcionario.cpf} onChange={this.handleInputChange} />
 							</FormGroup>
 						</Col>
 					</Row>
@@ -45,19 +46,19 @@ class FuncionarioForm extends Component {
 						<Col sm={4}>
 							<FormGroup bsSize='small'>
 								<ControlLabel>E-mail</ControlLabel>
-								<FormControl type='text' ref='email' placeholder='E-mail' />
+								<FormControl type='text' id='email' ref='email' placeholder='E-mail' value={this.props.funcionario.email} onChange={this.handleInputChange} />
 							</FormGroup>
 						</Col>
 						<Col sm={4}>
 							<FormGroup bsSize='small'>
 								<ControlLabel>Telefone</ControlLabel>
-								<FormControl type='text' ref='telefone' placeholder='Telefone' />
+								<FormControl type='text' id='telefone' ref='telefone' placeholder='Telefone' value={this.props.funcionario.telefone} onChange={this.handleInputChange} />
 							</FormGroup>
 						</Col>
 						<Col sm={4}>
 							<FormGroup bsSize='small'>
 								<ControlLabel>Nascimento</ControlLabel>
-								<FormControl type='text' ref='nascimento' placeholder='yyyy-mm-dd' />
+								<FormControl type='text' id='nascimento' ref='nascimento' placeholder='yyyy-mm-dd' value={this.props.funcionario.nascimento} onChange={this.handleInputChange} />
 							</FormGroup>
 						</Col>
 					</Row>
@@ -80,6 +81,7 @@ class FuncionarioForm extends Component {
 
 FuncionarioForm.propTypes = {
 	handleFormSubmit: PropTypes.func.isRequired,
+	handleInputChange: PropTypes.func,
 	funcionario: PropTypes.shape({
 		id: PropTypes.number.isRequired,
 		nome: PropTypes.string.isRequired,
@@ -92,6 +94,7 @@ FuncionarioForm.propTypes = {
 
 FuncionarioForm.defaultProps = {
 	handleFormSubmit: () => {},
+	handleInputChange: () => {},
 	funcionario: {
 		id: 0,
 		nome: '',

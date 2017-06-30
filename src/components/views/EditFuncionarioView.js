@@ -3,30 +3,33 @@ import Layout from "../layout/Layout";
 import FuncionarioForm from "../forms/FuncionarioForm";
 import PropTypes from 'prop-types';
 
-class AddFuncionarioView extends Component {
+class EditFuncionarioView extends Component {
 
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			funcionario: {
-				id: 0,
-				nome: '',
-				cpf: '',
-				email: '',
-				nascimento: '',
-				telefone: ''
-			}
+			funcionario: {},
+			loaded: false
 		}
 
 		this.handleFormSubmit = this.handleFormSubmit.bind(this);
 		this.handleInputChange = this.handleInputChange.bind(this);
 	}
 
+	async componentDidMount() {
+		const pathParams = this.props.match.params;
+		const endpoint = 'http://localhost:8080/fbe-aula3-atividade1-1.0-SNAPSHOT/resources/funcionarios/' + pathParams.funcionarioId;
+		const response = await fetch(endpoint, { method: 'GET' })
+		const funcionario = await response.json()
+		this.setState({ funcionario, loaded: true })
+	}
+
 	async handleFormSubmit() {
-		const endpoint = 'http://localhost:8080/fbe-aula3-atividade1-1.0-SNAPSHOT/resources/funcionarios';
+		const pathParams = this.props.match.params;
+		const endpoint = 'http://localhost:8080/fbe-aula3-atividade1-1.0-SNAPSHOT/resources/funcionarios/' + pathParams.funcionarioId;
 		const response = await fetch(endpoint, {
-			method: 'POST',
+			method: 'PUT',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(this.state.funcionario)
 		});
@@ -42,22 +45,26 @@ class AddFuncionarioView extends Component {
 	}
 
 	render() {
+		const form = (
+			<FuncionarioForm
+				handleFormSubmit={this.handleFormSubmit}
+				handleInputChange={this.handleInputChange}
+			  funcionario={this.state.funcionario}
+			/>
+		)
+
 		return (
 			<Layout>
 				<div className="text-left">
-					<FuncionarioForm
-						handleFormSubmit={this.handleFormSubmit}
-					  handleInputChange={this.handleInputChange}
-					  funcionario={this.state.funcionario}
-					/>
+					{ Object.keys(this.state.funcionario).length !== 0 ? form : <div/> }
 				</div>
 			</Layout>
 		);
 	}
 }
 
-AddFuncionarioView.contextTypes = {
+EditFuncionarioView.contextTypes = {
 	router: PropTypes.object.isRequired
 }
 
-export default AddFuncionarioView;
+export default EditFuncionarioView;

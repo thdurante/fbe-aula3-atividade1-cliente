@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Table, Button, Alert } from 'react-bootstrap';
 import Layout from '../layout/Layout';
 import Funcionario from "../Funcionario";
+import PropTypes from 'prop-types';
 
 class ListaFuncionariosView extends Component {
 
@@ -47,7 +48,7 @@ class ListaFuncionariosView extends Component {
 	}
 
 	handleEdit(id) {
-
+		this.context.router.history.push('/funcionarios/edit/' + id);
 	}
 
 	render() {
@@ -75,7 +76,7 @@ class ListaFuncionariosView extends Component {
 					</thead>
 					<tbody>
 						{
-							this.state.funcionarios.map(obj => <Funcionario key={obj.id} details={obj} removeHandler={this.handleRemove} editHandler={this.handleRemove}/>)
+							this.state.funcionarios.map(obj => <Funcionario key={obj.id} details={obj} removeHandler={this.handleRemove} editHandler={this.handleEdit}/>)
 						}
 					</tbody>
 				</Table>
@@ -83,6 +84,10 @@ class ListaFuncionariosView extends Component {
 			</Layout>
 		);
 	}
+}
+
+ListaFuncionariosView.contextTypes = {
+	router: PropTypes.object.isRequired
 }
 
 export default ListaFuncionariosView;
