@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { Row, Col, FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import moment from 'moment';
+import 'moment/locale/pt-br';
+import Datetime from 'react-datetime';
+import 'react-datetime/css/react-datetime.css';
 
 class FuncionarioForm extends Component {
 
@@ -9,6 +13,7 @@ class FuncionarioForm extends Component {
 		super(props);
 		this.handleSubmit  = this.handleSubmit.bind(this)
 		this.handleInputChange  = this.handleInputChange.bind(this)
+		this.handleDateChange  = this.handleDateChange.bind(this)
 	}
 
 	handleSubmit(e) {
@@ -20,6 +25,12 @@ class FuncionarioForm extends Component {
 		e.preventDefault();
 		const propriedade = e.target.id;
 		const valorAtualizado = e.target.value;
+		this.props.handleInputChange(propriedade, valorAtualizado);
+	}
+
+	handleDateChange(data) {
+		const propriedade = 'nascimento';
+		const valorAtualizado = data.format('DD/MM/YYYY');
 		this.props.handleInputChange(propriedade, valorAtualizado);
 	}
 
@@ -58,7 +69,7 @@ class FuncionarioForm extends Component {
 						<Col sm={4}>
 							<FormGroup bsSize='small'>
 								<ControlLabel>Nascimento</ControlLabel>
-								<FormControl type='text' id='nascimento' ref='nascimento' placeholder='yyyy-mm-dd' value={this.props.funcionario.nascimento} onChange={this.handleInputChange} />
+								<Datetime ref='nascimento' value={this.props.funcionario.nascimento} dateFormat='DD/MM/YYYY' timeFormat={false} onChange={this.handleDateChange} />
 							</FormGroup>
 						</Col>
 					</Row>
