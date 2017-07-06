@@ -13,6 +13,7 @@ Para configurar o projeto, siga os passos abaixo:
 Na pasta raiz do projeto:
 $ npm install
 ```
+Versões: `npm: 5.0.4` e `node: 8.1.0`
 
 ## Run
 Para rodar o projeto, siga os passos abaixo:
